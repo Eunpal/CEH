@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <context:component-scan base-package="com"></context:component-scan>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/> <!--//<mvc:mapping path/>를 통해서 인터셉터가 동작할 URL을 지정할 수 있다  -->
+            <bean id="loggerInterceptor" class="com.common.logger.LoggerInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>   
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0" />
+    <!-- <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" /> -->         
+    <bean
+        class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
+        p:viewClass="org.springframework.web.servlet.view.JstlView"
+        p:prefix="/WEB-INF/jsp/" p:suffix=".jsp">
+    </bean>
+    
+    <!-- action-servlet.xml에 interceptor를 설정함으로써, 우리는 DispatcherServlet과 Interceptor를 같은 위치에 등록을 한것이다.  -->
+</beans>
+
